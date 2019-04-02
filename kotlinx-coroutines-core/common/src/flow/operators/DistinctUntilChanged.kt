@@ -7,6 +7,7 @@
 
 package kotlinx.coroutines.flow
 
+import kotlinx.coroutines.flow.internal.*
 import kotlin.jvm.*
 import kotlinx.coroutines.flow.unsafeFlow as flow
 
@@ -21,11 +22,11 @@ public fun <T> Flow<T>.distinctUntilChanged(): Flow<T> = distinctUntilChangedBy 
  */
 public fun <T, K> Flow<T>.distinctUntilChangedBy(keySelector: (T) -> K): Flow<T> =
     flow {
-        var previousKey: K? = null
+        var previousKey: Any? = NullPlaceholder
         collect { value ->
             val key = keySelector(value)
             if (previousKey != key) {
-                previousKey = keySelector(value)
+                previousKey = key
                 emit(value)
             }
         }

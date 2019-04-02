@@ -38,7 +38,8 @@ public fun <T> Flow<T>.onErrorReturn(fallback: T, predicate: ExceptionPredicate 
     }
 
 /**
- * Operator that retries [n][retries] times to collect the given flow in an exception that matches the given [predicate] occurs.
+ * Operator that retries [n][retries] times to collect the given flow in an exception that matches the given [predicate] occurs
+ * in the given flow. Exceptions from collectors of this flow are not retried.
  */
 public fun <T> Flow<T>.retry(
     retries: Int = Int.MAX_VALUE,

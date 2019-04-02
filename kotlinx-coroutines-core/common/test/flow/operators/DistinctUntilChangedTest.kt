@@ -48,4 +48,10 @@ class DistinctUntilChangedTest : TestBase() {
         assertFailsWith<TestException>(flow)
         finish(4)
     }
+
+    @Test
+    fun testDistinctUntilChangedNull() = runTest{
+        val flow = flowOf(null, 1, null).distinctUntilChanged()
+        assertEquals(listOf(null, 1, null), flow.toList())
+    }
 }
