@@ -4,7 +4,7 @@
 
 package kotlinx.coroutines.flow
 
-import kotlin.coroutines.*
+import kotlinx.coroutines.*
 
 /**
  * [FlowCollector] is used as an intermediate or a terminal consumer of the flow and represents
@@ -13,6 +13,7 @@ import kotlin.coroutines.*
  * This interface usually should not be implemented directly, but rather used as a receiver in [flow] builder when implementing a custom operator.
  * Implementations of this interface are not thread-safe.
  */
+@ExperimentalCoroutinesApi
 public interface FlowCollector<T> {
 
     /**

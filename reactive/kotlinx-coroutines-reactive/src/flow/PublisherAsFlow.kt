@@ -20,13 +20,12 @@ import org.reactivestreams.*
  * If any of the resulting flow transformations fails, subscription is immediately cancelled and all in-flights elements
  * are discarded.
  */
-public fun <T: Any> Publisher<T>.asFlow(batchSize: Int = 1): Flow<T> =
+public fun <T> Publisher<T>.asFlow(batchSize: Int = 1): Flow<T> =
     PublisherAsFlow(this, batchSize)
 
-private class PublisherAsFlow<T: Any>(private val publisher: Publisher<T>, private val batchSize: Int) :
-    Flow<T> {
+private class PublisherAsFlow<T>(private val publisher: Publisher<T>, private val batchSize: Int) : Flow<T> {
 
-    override suspend fun collect(collector: FlowCollector<T>) {
+    override suspend fun collect(collector: FlowCollector<in T>) {
         val channel = Channel<T>(batchSize)
         val subscriber = ReactiveSubscriber(channel, batchSize)
         publisher.subscribe(subscriber)

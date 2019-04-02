@@ -4,6 +4,8 @@
 
 package kotlinx.coroutines.flow
 
+import kotlinx.coroutines.*
+
 /**
  * A cold asynchronous stream of the data, that emits from zero to N (where N can be unbounded)
  * values and completes normally or with an exception.
@@ -74,6 +76,7 @@ package kotlinx.coroutines.flow
  * Flow is Reactive Streams compliant, you can safely interop it with reactive streams using [Flow.asPublisher] and [Publisher.asFlow] from
  * kotlinx-coroutines-reactive module.
  */
+@ExperimentalCoroutinesApi
 public interface Flow<out T> {
 
     /**
