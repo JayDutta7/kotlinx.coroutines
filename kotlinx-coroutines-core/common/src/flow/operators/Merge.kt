@@ -19,25 +19,22 @@ import kotlin.jvm.*
  * Note that even though this operator looks very familiar, we discourage its usage in a regular application-specific flows.
  * Most likely, suspending operation in [map] operator will be sufficient and linear transformations are much easier to reason about.
  *
- * With [bufferSize] parameter, one can control the size of backpressure aka the amount of queued in-flight elements.
+ * [bufferSize] parameter controls the size of backpressure aka the amount of queued in-flight elements.
+ * [concurrency] parameter controls the size of in-flight flows.
  */
-public fun <T, R> Flow<T>.flatMap(bufferSize: Int = 16, mapper: suspend (value: T) -> Flow<R>): Flow<R> {
-    /*
-     * TODO open questions:
-     * 1) delayErrors argument is not introduced. It is not that hard, but we need some rationale for that
-     * 2) context argument is not introduced for the same reason, context is inherited from the flow
-     * 3) Buffer size is not the same as `concurrency` parameter and there is no mechanism to effectively bound
-     *    amount of in-flight flows
-     */
+public fun <T, R> Flow<T>.flatMap(concurrency: Int = 16, bufferSize: Int = 16, mapper: suspend (value: T) -> Flow<R>): Flow<R> {
     return flow {
-        val flatMap = FlatMapFlow(this, bufferSize)
+        val semaphore = Channel<Unit>(concurrency)
+        val flatMap = SerializedFlatMapCollector(this, bufferSize)
         coroutineScope {
             collect { outerValue ->
+                semaphore.send(Unit) // Acquire concurrency permit
                 val inner = mapper(outerValue)
                 launch {
                     inner.collect { value ->
                         flatMap.push(value)
                     }
+                    semaphore.receive() // Release concurrency permit
                 }
             }
         }
@@ -46,13 +43,16 @@ public fun <T, R> Flow<T>.flatMap(bufferSize: Int = 16, mapper: suspend (value: 
 
 /**
  * Merges given sequence of flows into a single flow with no guarantees on the order.
+ *
+ * [bufferSize] parameter controls the size of backpressure aka the amount of queued in-flight elements.
+ * [concurrency] parameter controls the size of in-flight flows.
  */
-public fun <T> Iterable<Flow<T>>.merge(): Flow<T> = asFlow().flatMap { it }
+public fun <T> Iterable<Flow<T>>.merge(concurrency: Int = 16, bufferSize: Int = 16): Flow<T> = asFlow().flatMap(concurrency, bufferSize) { it }
 
 /**
  * Concatenates values of each flow sequentially, without interleaving them.
  */
-public fun <T> Flow<Flow<T>>.concatenate(): Flow<T> = kotlinx.coroutines.flow.flow {
+public fun <T> Flow<Flow<T>>.concatenate(): Flow<T> = flow {
     collect {
         val inner = it
         inner.collect { value ->
@@ -65,7 +65,7 @@ public fun <T> Flow<Flow<T>>.concatenate(): Flow<T> = kotlinx.coroutines.flow.fl
  * Transforms each value of the given flow into flow of another type and then flattens these flows
  * sequentially, without interleaving them.
  */
-public fun <T, R> Flow<T>.concatenate(mapper: suspend (T) -> Flow<R>): Flow<R> = kotlinx.coroutines.flow.flow {
+public fun <T, R> Flow<T>.concatenate(mapper: suspend (T) -> Flow<R>): Flow<R> = flow {
     collect { value ->
         mapper(value).collect { innerValue ->
             emit(innerValue)
@@ -73,7 +73,8 @@ public fun <T, R> Flow<T>.concatenate(mapper: suspend (T) -> Flow<R>): Flow<R> =
     }
 }
 
-private class FlatMapFlow<T>(
+// Effectively serializes access to downstream collector from flatMap
+private class SerializedFlatMapCollector<T>(
     private val downstream: FlowCollector<T>,
     private val bufferSize: Int
 ) {

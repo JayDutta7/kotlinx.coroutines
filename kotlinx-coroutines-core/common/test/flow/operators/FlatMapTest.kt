@@ -159,4 +159,30 @@ class FlatMapTest : TestBase() {
 
         assertEquals(1, flow.singleOrNull())
     }
+
+    @Test
+    fun testFlatMapConcurrency() = runTest {
+        var concurrentRequests = 0
+        val flow = (1..100).asFlow().flatMap(concurrency = 2) { value ->
+            flow {
+                ++concurrentRequests
+                emit(value)
+                delay(Long.MAX_VALUE)
+            }
+        }
+
+        val consumer = launch {
+            flow.collect { value ->
+                expect(value)
+            }
+        }
+
+        repeat(4) {
+            yield()
+        }
+
+        assertEquals(2, concurrentRequests)
+        consumer.cancelAndJoin()
+        finish(3)
+    }
 }
