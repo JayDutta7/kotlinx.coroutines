@@ -43,9 +43,9 @@ import kotlin.jvm.*
  * ```
  * If you want to switch the context where this flow is executed use [flowOn] operator.
  */
-public fun <T> flow(@BuilderInference block: suspend FlowCollector<T>.() -> Unit): Flow<T> {
+public fun <T> flow(@BuilderInference block: suspend FlowCollector<in T>.() -> Unit): Flow<T> {
     return object : Flow<T> {
-        override suspend fun collect(collector: FlowCollector<T>) {
+        override suspend fun collect(collector: FlowCollector<in T>) {
             SafeCollector(collector, coroutineContext[ContinuationInterceptor]).block()
         }
     }
@@ -56,9 +56,9 @@ public fun <T> flow(@BuilderInference block: suspend FlowCollector<T>.() -> Unit
  * Used in our own operators where we trust the context of the invocation.
  */
 @PublishedApi
-internal fun <T> unsafeFlow(@BuilderInference block: suspend FlowCollector<T>.() -> Unit): Flow<T> {
+internal fun <T> unsafeFlow(@BuilderInference block: suspend FlowCollector<in T>.() -> Unit): Flow<T> {
     return object : Flow<T> {
-        override suspend fun collect(collector: FlowCollector<T>) {
+        override suspend fun collect(collector: FlowCollector<in T>) {
             collector.block()
         }
     }
@@ -117,11 +117,10 @@ public fun <T> flowOf(vararg elements: T): Flow<T> = unsafeFlow {
 /**
  * Returns an empty flow.
  */
-@Suppress("UNCHECKED_CAST")
-public fun <T> emptyFlow(): Flow<T> = EmptyFlow as Flow<T>
+public fun <T> emptyFlow(): Flow<T> = EmptyFlow
 
 private object EmptyFlow : Flow<Nothing> {
-    override suspend fun collect(collector: FlowCollector<Nothing>) = Unit
+    override suspend fun collect(collector: FlowCollector<in Nothing>) = Unit
 }
 
 /**

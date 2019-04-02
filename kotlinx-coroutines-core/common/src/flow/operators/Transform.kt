@@ -24,7 +24,7 @@ import kotlinx.coroutines.flow.unsafeFlow as flow
  * }
  * ```
  */
-public fun <T, R> Flow<T>.transform(@BuilderInference transformer: suspend FlowCollector<R>.(value: T) -> Unit): Flow<R> {
+public fun <T, R> Flow<T>.transform(@BuilderInference transformer: suspend FlowCollector<in R>.(value: T) -> Unit): Flow<R> {
     // TODO inliner 1.3.30
     // TODO evaluate performance of operators written on top of tranform when inliner is fixed
     return flow {

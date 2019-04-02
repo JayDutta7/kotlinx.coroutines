@@ -74,7 +74,7 @@ package kotlinx.coroutines.flow
  * Flow is Reactive Streams compliant, you can safely interop it with reactive streams using [Flow.asPublisher] and [Publisher.asFlow] from
  * kotlinx-coroutines-reactive module.
  */
-public interface Flow<T> {
+public interface Flow<out T> {
 
     /**
      * Accepts the given [collector] and [emits][FlowCollector.emit] values into it.
@@ -94,5 +94,5 @@ public interface Flow<T> {
      *
      * 2) It should serialize calls to [emit][FlowCollector.emit] as [FlowCollector] implementations are not thread safe by default.
      */
-    public suspend fun collect(collector: FlowCollector<T>)
+    public suspend fun collect(collector: FlowCollector<in T>)
 }
