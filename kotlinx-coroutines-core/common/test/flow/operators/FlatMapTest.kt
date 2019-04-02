@@ -61,7 +61,7 @@ class FlatMapTest : TestBase() {
         }
 
         expect(1)
-        assertFailsWith<TestException>(flow.count())
+        assertFailsWith<TestException> { flow.singleOrNull() }
         finish(7)
     }
 
@@ -88,7 +88,7 @@ class FlatMapTest : TestBase() {
         }
 
         expect(1)
-        assertFailsWith<TestException>(flow.count())
+        assertFailsWith<TestException> { flow.count() }
         finish(8)
     }
 

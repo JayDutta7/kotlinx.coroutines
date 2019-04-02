@@ -73,11 +73,6 @@ public fun <T : Any> (suspend () -> T).asFlow(): Flow<T> = unsafeFlow {
 }
 
 /**
- * Creates flow that produces single value from the given functional type.
- */
-public fun <T : Any> flowOf(supplier: (suspend () -> T)): Flow<T> = supplier.asFlow()
-
-/**
  * Creates flow that produces values from the given iterable.
  */
 public fun <T : Any> Iterable<T>.asFlow(): Flow<T> = unsafeFlow {
@@ -108,4 +103,8 @@ public fun <T : Any> Sequence<T>.asFlow(): Flow<T> = unsafeFlow {
 /**
  * Creates flow that produces values from the given array of elements.
  */
-public fun <T : Any> flowOf(vararg elements: T): Flow<T> = elements.asIterable().asFlow()
+public fun <T : Any> flowOf(vararg elements: T): Flow<T> = unsafeFlow {
+    for (element in elements) {
+        emit(element)
+    }
+}

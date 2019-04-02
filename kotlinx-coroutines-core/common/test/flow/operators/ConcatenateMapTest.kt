@@ -65,7 +65,7 @@ class ConcatenateMapTest : TestBase() {
             }
         }
 
-        assertFailsWith<TestException>(flow.count())
+        assertFailsWith<TestException> { flow.count() }
         assertTrue(finally)
     }
 
@@ -89,7 +89,7 @@ class ConcatenateMapTest : TestBase() {
             flowOf<Int>() // Workaround for KT-30642, return type should not be Nothing
         }
 
-        assertFailsWith<TestException>(flow.count())
+        assertFailsWith<TestException> { flow.count() }
         finish(4)
     }
 
