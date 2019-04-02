@@ -7,6 +7,7 @@
 
 package kotlinx.coroutines.flow
 
+import kotlinx.coroutines.flow.internal.*
 import kotlin.jvm.*
 
 /**
@@ -14,14 +15,16 @@ import kotlin.jvm.*
  * Throws [NoSuchElementException] for empty flow and [IllegalStateException] for flow
  * that contains more than one element.
  */
-public suspend fun <T: Any> Flow<T>.single(): T {
-    var result: T? = null
+public suspend fun <T> Flow<T>.single(): T {
+    var result: Any? = NullPlaceholder
     collect { value ->
-        if (result != null) error("Expected only one element")
+        if (result !== NullPlaceholder) error("Expected only one element")
         result = value
     }
 
-    return result ?: throw NoSuchElementException("Expected at least one element")
+    if (result is NullPlaceholder) throw NoSuchElementException("Expected at least one element")
+    @Suppress("UNCHECKED_CAST")
+    return result as T
 }
 
 /**

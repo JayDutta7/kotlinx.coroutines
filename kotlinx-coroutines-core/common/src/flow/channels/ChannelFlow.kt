@@ -20,7 +20,7 @@ import kotlin.jvm.*
  * 2) Flow consumer completes normally when the original channel completes (~is closed) normally.
  * 3) If the flow consumer fails with an exception, subscription is cancelled.
  */
-public fun <T : Any> BroadcastChannel<T>.asFlow(): Flow<T> = flow {
+public fun <T> BroadcastChannel<T>.asFlow(): Flow<T> = flow {
     val subscription = openSubscription()
     subscription.consumeEach { value ->
         emit(value)
@@ -33,7 +33,7 @@ public fun <T : Any> BroadcastChannel<T>.asFlow(): Flow<T> = flow {
  * This transformation is **stateful**, it launches a [broadcast] coroutine
  * that collects the given flow and thus resulting channel should be properly closed or cancelled.
  */
-public fun <T : Any> Flow<T>.broadcastIn(
+public fun <T> Flow<T>.broadcastIn(
     scope: CoroutineScope, capacity: Int = 1,
     start: CoroutineStart = CoroutineStart.LAZY
 ): BroadcastChannel<T> = scope.broadcast(capacity = capacity, start = start) {
@@ -48,7 +48,7 @@ public fun <T : Any> Flow<T>.broadcastIn(
  * This transformation is **stateful**, it launches a [produce] coroutine
  * that collects the given flow and thus resulting channel should be properly closed or cancelled.
  */
-public fun <T : Any> Flow<T>.produceIn(
+public fun <T> Flow<T>.produceIn(
     scope: CoroutineScope,
     capacity: Int = 1
 ): ReceiveChannel<T> = scope.produce(capacity = capacity) {

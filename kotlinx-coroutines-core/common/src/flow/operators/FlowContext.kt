@@ -32,7 +32,7 @@ import kotlin.jvm.*
  *
  * @throws [IllegalStateException] if provided context contains [Job] instance.
  */
-public fun <T : Any> Flow<T>.flowOn(flowContext: CoroutineContext, bufferSize: Int = 16): Flow<T> {
+public fun <T> Flow<T>.flowOn(flowContext: CoroutineContext, bufferSize: Int = 16): Flow<T> {
     check(flowContext, bufferSize)
     return flow {
         // TODO optimize on similar context/dispatcher and add tests
@@ -78,7 +78,7 @@ public fun <T : Any> Flow<T>.flowOn(flowContext: CoroutineContext, bufferSize: I
  *
  * @throws [IllegalStateException] if provided context contains [Job] instance.
  */
-public fun <T : Any, R : Any> Flow<T>.flowWith(
+public fun <T, R> Flow<T>.flowWith(
     flowContext: CoroutineContext,
     bufferSize: Int = 16,
     builder: Flow<T>.() -> Flow<R>
@@ -111,10 +111,10 @@ private fun check(flowContext: CoroutineContext, bufferSize: Int) {
 }
 
 @Deprecated(message = "Use flowWith or flowOn instead", level = DeprecationLevel.ERROR)
-public fun <T: Any> Flow<T>.subscribeOn(context: CoroutineContext): Flow<T> = TODO("Should not be called")
+public fun <T> Flow<T>.subscribeOn(context: CoroutineContext): Flow<T> = TODO("Should not be called")
 
 @Deprecated(message = "Use flowWith or flowOn instead", level = DeprecationLevel.ERROR)
-public fun <T: Any> Flow<T>.observeOn(context: CoroutineContext): Flow<T> = TODO("Should not be called")
+public fun <T> Flow<T>.observeOn(context: CoroutineContext): Flow<T> = TODO("Should not be called")
 
 @Deprecated(message = "Use flowWith or flowOn instead", level = DeprecationLevel.ERROR)
-public fun <T: Any> Flow<T>.publishOn(context: CoroutineContext): Flow<T> = TODO("Should not be called")
+public fun <T> Flow<T>.publishOn(context: CoroutineContext): Flow<T> = TODO("Should not be called")

@@ -13,7 +13,7 @@ import kotlin.coroutines.*
  * This interface usually should not be implemented directly, but rather used as a receiver in [flow] builder when implementing a custom operator.
  * Implementations of this interface are not thread-safe.
  */
-public interface FlowCollector<T: Any> {
+public interface FlowCollector<T> {
 
     /**
      * Consumes the value emitted by the upstream.
@@ -24,4 +24,4 @@ public interface FlowCollector<T: Any> {
 // Just an additional protection layer
 @Suppress("UNUSED_PARAMETER", "UNUSED", "DeprecatedCallableAddReplaceWith")
 @Deprecated(message = "withContext in flow body is deprecated, use flowOn instead", level = DeprecationLevel.ERROR)
-public fun <T : Any, R> FlowCollector<T>.withContext(context: CoroutineContext, block: suspend () -> R): Unit = error("Should not be called")
+public fun <T, R> FlowCollector<T>.withContext(context: CoroutineContext, block: suspend () -> R): Unit = error("Should not be called")

@@ -56,4 +56,11 @@ class SingleTest : TestBase() {
         assertFailsWith<TestException> { flow.single() }
         assertFailsWith<TestException> { flow.singleOrNull() }
     }
+
+    @Test
+    fun testNullableSingle() = runTest {
+        assertEquals(1, flowOf<Int?>(1).single())
+        assertNull(flowOf<Int?>(null).single())
+        assertFailsWith<NoSuchElementException> { flowOf<Int?>().single() }
+    }
 }

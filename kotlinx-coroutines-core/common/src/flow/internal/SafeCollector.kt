@@ -9,7 +9,7 @@ import kotlinx.coroutines.internal.*
 import kotlin.coroutines.*
 
 @PublishedApi
-internal class SafeCollector<T : Any>(
+internal class SafeCollector<T>(
     private val collector: FlowCollector<T>,
     private val interceptor: ContinuationInterceptor?
 ) : FlowCollector<T>, SynchronizedObject() {

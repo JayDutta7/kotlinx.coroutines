@@ -12,7 +12,7 @@ import kotlin.jvm.*
 /**
  * Accumulates value starting with [initial] value and applying [operation] current accumulator value and each element
  */
-public suspend fun <T : Any, R> Flow<T>.fold(
+public suspend fun <T, R> Flow<T>.fold(
     initial: R,
     operation: suspend (acc: R, value: T) -> R
 ): R {

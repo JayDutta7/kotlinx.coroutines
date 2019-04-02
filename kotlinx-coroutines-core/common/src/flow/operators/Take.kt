@@ -14,7 +14,7 @@ import kotlin.jvm.*
  * Returns a flow that contains first [count] elements.
  * When [count] elements are consumed, the original flow is cancelled.
  */
-public fun <T : Any> Flow<T>.take(count: Int): Flow<T> {
+public fun <T> Flow<T>.take(count: Int): Flow<T> {
     require(count > 0) { "Take count should be positive, but had $count" }
     return flow {
         var consumed = 0
@@ -34,7 +34,7 @@ public fun <T : Any> Flow<T>.take(count: Int): Flow<T> {
 /**
  * Returns a flow that contains first elements satisfying the given [predicate].
  */
-public fun <T : Any> Flow<T>.takeWhile(predicate: suspend (T) -> Boolean): Flow<T> = flow {
+public fun <T> Flow<T>.takeWhile(predicate: suspend (T) -> Boolean): Flow<T> = flow {
     try {
         collect { value ->
             if (predicate(value)) emit(value)

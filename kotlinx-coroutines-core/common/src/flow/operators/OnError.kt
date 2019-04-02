@@ -17,7 +17,7 @@ private val ALWAYS_TRUE: ExceptionPredicate = { true }
 /**
  * Switches to the [fallback] flow if the original flow throws an exception that matches the [predicate].
  */
-public fun <T : Any> Flow<T>.onErrorCollect(
+public fun <T> Flow<T>.onErrorCollect(
     fallback: Flow<T>,
     predicate: ExceptionPredicate = ALWAYS_TRUE
 ): Flow<T> = collectSafely { e ->
@@ -30,7 +30,7 @@ public fun <T : Any> Flow<T>.onErrorCollect(
 /**
  * Emits the [fallback] value and finishes successfully if the original flow throws exception that matches the given [predicate];
  */
-public fun <T : Any> Flow<T>.onErrorReturn(fallback: T, predicate: ExceptionPredicate = ALWAYS_TRUE): Flow<T> =
+public fun <T> Flow<T>.onErrorReturn(fallback: T, predicate: ExceptionPredicate = ALWAYS_TRUE): Flow<T> =
     collectSafely { e ->
         if (!predicate(e)) throw e
         emit(fallback)
@@ -39,7 +39,7 @@ public fun <T : Any> Flow<T>.onErrorReturn(fallback: T, predicate: ExceptionPred
 /**
  * Operator that retries [n][retries] times to collect the given flow in an exception that matches the given [predicate] occurs.
  */
-public fun <T : Any> Flow<T>.retry(
+public fun <T> Flow<T>.retry(
     retries: Int = Int.MAX_VALUE,
     predicate: ExceptionPredicate = ALWAYS_TRUE
 ): Flow<T> {
@@ -68,7 +68,7 @@ public fun <T : Any> Flow<T>.retry(
     }
 }
 
-private fun <T : Any> Flow<T>.collectSafely(onException: suspend FlowCollector<T>.(Throwable) -> Unit): Flow<T> =
+private fun <T> Flow<T>.collectSafely(onException: suspend FlowCollector<T>.(Throwable) -> Unit): Flow<T> =
     flow {
         // Note that exception may come from the downstream operators, we should not switch on that
         var fromDownstream = false
@@ -92,4 +92,4 @@ private fun <T : Any> Flow<T>.collectSafely(onException: suspend FlowCollector<T
     message = "Flow analogue is named onErrorCollect",
     replaceWith = ReplaceWith("onErrorCollect(fallback)")
 )
-public fun <T : Any> Flow<T>.onErrorResume(fallback: Flow<T>): Flow<T> = error("Should not be called")
+public fun <T> Flow<T>.onErrorResume(fallback: Flow<T>): Flow<T> = error("Should not be called")

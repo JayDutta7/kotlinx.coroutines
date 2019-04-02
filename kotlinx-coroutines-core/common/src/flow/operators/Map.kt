@@ -13,4 +13,4 @@ import kotlin.jvm.*
  *
  * TODO this method will be inline as soon as all bugs in crossinliner will be fixed
  */
-public fun <T : Any, R : Any> Flow<T>.map(transformer: suspend (value: T) -> R): Flow<R> = transform { value -> emit(transformer(value)) }
+public fun <T, R> Flow<T>.map(transformer: suspend (value: T) -> R): Flow<R> = transform { value -> emit(transformer(value)) }

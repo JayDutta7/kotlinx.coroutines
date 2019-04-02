@@ -78,7 +78,7 @@ import kotlin.jvm.*
  * Flow is Reactive Streams compliant, you can safely interop it with reactive streams using [Flow.asPublisher] and [Publisher.asFlow] from
  * kotlinx-coroutines-reactive module.
  */
-public interface Flow<T : Any> {
+public interface Flow<T> {
 
     /**
      * Accepts the given [collector] and [emits][FlowCollector.emit] values into it.

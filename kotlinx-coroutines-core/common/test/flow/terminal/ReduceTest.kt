@@ -22,8 +22,27 @@ class ReduceTest : TestBase() {
 
     @Test
     fun testEmptyReduce() = runTest {
-        val flow = flowOf<Int>()
-        assertFailsWith<UnsupportedOperationException> { flow.reduce { value, acc -> value + acc } }
+        val flow = emptyFlow<Int>()
+        assertFailsWith<UnsupportedOperationException> { flow.reduce { acc, value -> value + acc } }
+    }
+
+    @Test
+    fun testNullableReduce() = runTest {
+        val flow = flowOf(1, null, null, 2)
+        var invocations = 0
+        val sum = flow.reduce { acc, value ->
+            ++invocations
+            value
+        }
+        assertEquals(2, sum)
+        assertEquals(3, invocations)
+    }
+
+    @Test
+    fun testReduceNulls() = runTest {
+        assertNull(flowOf(null).reduce { _, value -> value })
+        assertNull(flowOf(null, null).reduce { _, value -> value })
+        assertFailsWith<UnsupportedOperationException> { flowOf<Nothing?>().reduce { _, value -> value } }
     }
 
     @Test

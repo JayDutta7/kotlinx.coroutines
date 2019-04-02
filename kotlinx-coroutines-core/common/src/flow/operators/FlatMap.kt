@@ -20,7 +20,7 @@ import kotlin.jvm.*
  *
  * With [bufferSize] parameter, one can control the size of backpressure aka the amount of queued in-flight elements.
  */
-public fun <T : Any, R : Any> Flow<T>.flatMap(bufferSize: Int = 16, mapper: suspend (value: T) -> Flow<R>): Flow<R> {
+public fun <T, R> Flow<T>.flatMap(bufferSize: Int = 16, mapper: suspend (value: T) -> Flow<R>): Flow<R> {
     /*
      * TODO open questions:
      * 1) delayErrors argument is not introduced. It is not that hard, but we need some rationale for that
@@ -43,7 +43,7 @@ public fun <T : Any, R : Any> Flow<T>.flatMap(bufferSize: Int = 16, mapper: susp
     }
 }
 
-private class FlatMapFlow<T: Any>(
+private class FlatMapFlow<T>(
     private val downstream: FlowCollector<T>,
     private val bufferSize: Int
 ) {

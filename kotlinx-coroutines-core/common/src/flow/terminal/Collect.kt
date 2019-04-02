@@ -26,7 +26,7 @@ import kotlin.jvm.*
  * }
  * ```
  */
-public suspend fun <T : Any> Flow<T>.collect(action: suspend (value: T) -> Unit): Unit =
+public suspend fun <T> Flow<T>.collect(action: suspend (value: T) -> Unit): Unit =
     collect(object : FlowCollector<T> {
         override suspend fun emit(value: T) = action(value)
     })

@@ -11,4 +11,4 @@ import kotlin.jvm.*
 /**
  * Merges given sequence of flows into a single flow with no guarantees on the order.
  */
-public fun <T: Any> Iterable<Flow<T>>.merge(): Flow<T> = asFlow().flatMap { it }
+public fun <T> Iterable<Flow<T>>.merge(): Flow<T> = asFlow().flatMap { it }

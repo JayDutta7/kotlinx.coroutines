@@ -13,7 +13,7 @@ import kotlin.jvm.*
 /**
  * Delays the emission of values from this flow for the given [timeMillis].
  */
-public fun <T : Any> Flow<T>.delayFlow(timeMillis: Long): Flow<T> = flow {
+public fun <T> Flow<T>.delayFlow(timeMillis: Long): Flow<T> = flow {
     delay(timeMillis)
     collect {
         emit(it)
@@ -23,7 +23,7 @@ public fun <T : Any> Flow<T>.delayFlow(timeMillis: Long): Flow<T> = flow {
 /**
  * Delays each element emitted by the given flow for the given [timeMillis].
  */
-public fun <T : Any> Flow<T>.delayEach(timeMillis: Long): Flow<T> = flow {
+public fun <T> Flow<T>.delayEach(timeMillis: Long): Flow<T> = flow {
     collect {
         delay(timeMillis)
         emit(it)

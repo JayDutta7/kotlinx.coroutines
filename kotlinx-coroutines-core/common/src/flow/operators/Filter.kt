@@ -12,7 +12,7 @@ import kotlin.jvm.*
 /**
  * Transforms the given flow into a flow of elements that match given [predicate]
  */
-public fun <T : Any> Flow<T>.filter(predicate: suspend (T) -> Boolean): Flow<T> = flow {
+public fun <T> Flow<T>.filter(predicate: suspend (T) -> Boolean): Flow<T> = flow {
     // TODO inliner 1.3.30
     collect { value ->
         if (predicate(value)) emit(value)
