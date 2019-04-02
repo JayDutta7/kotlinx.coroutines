@@ -2,28 +2,30 @@
  * Copyright 2016-2019 JetBrains s.r.o. Use of this source code is governed by the Apache 2.0 license.
  */
 
-package kotlinx.coroutines.flow
+package kotlinx.coroutines.flow.operators
 
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.*
+import kotlinx.coroutines.flow.*
 import kotlin.test.*
 
-class MapTest : TestBase() {
+class OnEachTest : TestBase() {
     @Test
-    fun testMap() = runTest {
+    fun testOnEach() = runTest {
         val flow = flow {
             emit(1)
             emit(2)
         }
 
-        val result = flow.map { it + 1 }.sum()
-        assertEquals(5, result)
+        val result = flow.onEach { expect(it) }.sum()
+        assertEquals(3, result)
+        finish(3)
     }
 
     @Test
     fun testEmptyFlow() = runTest {
-        val sum = emptyFlow<Int>().map { expectUnreached(); it }.sum()
-        assertEquals(0, sum)
+        val value = emptyFlow<Int>().onEach { fail() }.singleOrNull()
+        assertNull(value)
     }
 
     @Test
@@ -38,7 +40,7 @@ class MapTest : TestBase() {
                 }
                 emit(1)
             }
-        }.map {
+        }.onEach {
             latch.receive()
             throw TestException()
             it + 1
