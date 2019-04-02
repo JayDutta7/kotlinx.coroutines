@@ -2,6 +2,10 @@
  * Copyright 2016-2019 JetBrains s.r.o. Use of this source code is governed by the Apache 2.0 license.
  */
 
+/*
+ * Copyright 2016-2019 JetBrains s.r.o. Use of this source code is governed by the Apache 2.0 license.
+ */
+
 @file:JvmMultifileClass
 @file:JvmName("FlowKt")
 
@@ -23,11 +27,11 @@ import kotlin.jvm.*
  * Example of usage:
  * ```
  * fun flowFrom(api: CallbackBasedApi): Flow<Int> = flowViaChannel { channel ->
- *  val adapter = FlowSinkAdapter(channel) // implementation of callback interface
- *  api.register(adapter)
- *  channel.invokeOnClose {
- *    api.unregister(adapter)
- *  }
+ *     val adapter = FlowSinkAdapter(channel) // implementation of callback interface
+ *     api.register(adapter)
+ *     channel.invokeOnClose {
+ *         api.unregister(adapter)
+ *     }
  * }
  * ```
  */

@@ -63,8 +63,8 @@ import kotlin.jvm.*
  * This reasoning can be demonstrated in the practice:
  * ```
  * val flow = flowOf(1, 2, 3)
- *   .map { it + 1 } // Will be executed in ctx_1
- *   .flowOn(ctx_1) // Changes upstream context: flowOf and map
+ *     .map { it + 1 } // Will be executed in ctx_1
+ *     .flowOn(ctx_1) // Changes upstream context: flowOf and map
  *
  * // Now we have flow that is pure: it is executed somewhere but this information is encapsulated in the flow itself
  *
@@ -72,9 +72,9 @@ import kotlin.jvm.*
  *  .filter { it == 3 } // Pure operator without a context
  *
  * withContext(Dispatchers.Main) {
- *    // All not encapsulated operators will be executed in Main: filter and single
- *    val result = filtered.single()
- *    myUi.text = result
+ *     // All not encapsulated operators will be executed in Main: filter and single
+ *     val result = filtered.single()
+ *     myUi.text = result
  * }
  * ```
  *
@@ -94,7 +94,7 @@ public interface Flow<T : Any> {
      * ```
      * coroutineScope { // Context is inherited
      *     launch { // Dispatcher is not overridden, fine as well
-     *        collector.emit(someValue)
+     *         collector.emit(someValue)
      *     }
      * }
      * ```

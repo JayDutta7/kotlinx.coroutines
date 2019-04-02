@@ -14,18 +14,17 @@ import kotlin.jvm.*
 
 /**
  * The operator that changes the context where this flow is executed to the given [flowContext].
- * This operator is pure as opposed to reactive `subscribeOn` analogues: it **does not** change the context of the downstream flow.
  * This operator is composable and affects only precedent operators that do not have its own context.
+ * This operator is pure: [flowContext] **does not** leak into the downstream flow.
  *
  * For example:
  * ```
- * val singleValue =
- *  intFlow // will be executed on IO if context wasn't specified before
- *   .map { ... } // Will be executed in IO
- *   .flowOn(Dispatchers.IO)
- *   .filter { ... } // Will be executed in Default
- *   .flowOn(Dispatchers.Default)
- *   .single() // Will be executed in the context of the caller
+ * val singleValue = intFlow // will be executed on IO if context wasn't specified before
+ *     .map { ... } // Will be executed in IO
+ *     .flowOn(Dispatchers.IO)
+ *     .filter { ... } // Will be executed in Default
+ *     .flowOn(Dispatchers.Default)
+ *     .single() // Will be executed in the context of the caller
  * ```
  *
  * This operator uses a channel of the specific [bufferSize] in order to switch between contexts,
@@ -66,12 +65,12 @@ public fun <T : Any> Flow<T>.flowOn(flowContext: CoroutineContext, bufferSize: I
  * Example:
  * ```
  * flow // not affected
- *   .map { ... } // Not affected
- *   .flowWith(Dispatchers.IO) {
- *      map { ... } // in IO
- *      .filter { ... } // in IO
- *   }
- *   .map { ... } // Not affected
+ *     .map { ... } // Not affected
+ *     .flowWith(Dispatchers.IO) {
+ *         map { ... } // in IO
+ *         .filter { ... } // in IO
+ *     }
+ *     .map { ... } // Not affected
  * ```
  *
  * This operator uses channel of the specific [bufferSize] in order to switch between contexts,

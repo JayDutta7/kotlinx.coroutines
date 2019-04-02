@@ -17,10 +17,10 @@ import kotlin.jvm.*
  * This operator is useless by itself, but can be used as a building block of user-specific operators:
  * ```
  * fun Flow<Int>.skipOddAndDuplicateEven(): Flow<Int> = transform { value ->
- *   if (value % 2 == 0) { // Emit only even values, but twice
- *     emit(value)
- *     emit(value)
- *   } // Do nothing if odd
+ *     if (value % 2 == 0) { // Emit only even values, but twice
+ *         emit(value)
+ *         emit(value)
+ *     } // Do nothing if odd
  * }
  * ```
  */
