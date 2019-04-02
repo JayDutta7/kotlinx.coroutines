@@ -10,8 +10,8 @@ package kotlinx.coroutines.flow
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.*
 import kotlin.coroutines.*
-import kotlinx.coroutines.flow.unsafeFlow as flow
 import kotlin.jvm.*
+import kotlinx.coroutines.flow.unsafeFlow as flow
 
 /**
  * The operator that changes the context where this flow is executed to the given [flowContext].
@@ -36,7 +36,13 @@ import kotlin.jvm.*
 public fun <T> Flow<T>.flowOn(flowContext: CoroutineContext, bufferSize: Int = 16): Flow<T> {
     check(flowContext, bufferSize)
     return flow {
-        // TODO optimize on similar context/dispatcher and add tests
+        // Fast-path, context is not changed, so we can just fallback to plain collect
+        val currentContext = coroutineContext.minusKey(Job) // Jobs are ignored
+        if (flowContext == currentContext) {
+            collect { value -> emit(value) }
+            return@flow
+        }
+
         coroutineScope {
             val channel = produce(flowContext, capacity = bufferSize) {
                 collect { value ->
@@ -86,7 +92,6 @@ public fun <T, R> Flow<T>.flowWith(
 ): Flow<R> {
     check(flowContext, bufferSize)
     val source = this
-    // TODO optimize
     return flow {
         /**
          * Here we should subtract Job instance from the context.
