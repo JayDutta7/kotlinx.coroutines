@@ -107,11 +107,3 @@ public fun <T> Flow<T>.launchIn(
     scope: CoroutineScope,
     builder: LaunchFlowBuilder<T>.() -> Unit
 ): Job = scope.launchFlow(this, builder)
-
-
-@Deprecated(message = "Use flow.launchIn or scope.launchFlow instead", level = DeprecationLevel.ERROR, replaceWith = ReplaceWith("launchIn(GlobalScope)"))
-public fun <T> Flow<T>.subscribe(): Unit = error("Should not be called")
-@Deprecated(message = "Use flow.launchIn or scope.launchFlow instead", level = DeprecationLevel.ERROR, replaceWith = ReplaceWith("launchIn(GlobalScope)"))
-public fun <T> Flow<T>.subscribe(onEach: (T) -> Unit): Unit = error("Should not be called")
-@Deprecated(message = "Use flow.launchIn or scope.launchFlow instead", level = DeprecationLevel.ERROR, replaceWith = ReplaceWith("launchIn(GlobalScope)"))
-public fun <T> Flow<T>.subscribe(onEach: (T) -> Unit, onError: (Throwable) -> Unit): Unit = error("Should not be called")

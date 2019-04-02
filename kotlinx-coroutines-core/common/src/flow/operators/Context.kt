@@ -10,6 +10,7 @@ package kotlinx.coroutines.flow
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.*
 import kotlin.coroutines.*
+import kotlinx.coroutines.flow.unsafeFlow as flow
 import kotlin.jvm.*
 
 /**
@@ -109,12 +110,3 @@ private fun check(flowContext: CoroutineContext, bufferSize: Int) {
         "Buffer size should be positive, but was $bufferSize"
     }
 }
-
-@Deprecated(message = "Use flowWith or flowOn instead", level = DeprecationLevel.ERROR)
-public fun <T> Flow<T>.subscribeOn(context: CoroutineContext): Flow<T> = TODO("Should not be called")
-
-@Deprecated(message = "Use flowWith or flowOn instead", level = DeprecationLevel.ERROR)
-public fun <T> Flow<T>.observeOn(context: CoroutineContext): Flow<T> = TODO("Should not be called")
-
-@Deprecated(message = "Use flowWith or flowOn instead", level = DeprecationLevel.ERROR)
-public fun <T> Flow<T>.publishOn(context: CoroutineContext): Flow<T> = TODO("Should not be called")

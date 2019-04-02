@@ -57,14 +57,3 @@ public fun <T> Flow<T>.produceIn(
         send(value)
     }
 }
-
-@Deprecated(message = "Use BroadcastChannel.asFlow()", level = DeprecationLevel.ERROR)
-public fun BehaviourSubject(): Any = error("Should not be called")
-
-@Deprecated(
-    message = "ReplaySubject is not supported. The closest analogue is buffered broadcast channel",
-    level = DeprecationLevel.ERROR)
-public fun ReplaySubject(): Any = error("Should not be called")
-
-@Deprecated(message = "PublishSubject is not supported", level = DeprecationLevel.ERROR)
-public fun PublishSubject(): Any = error("Should not be called")

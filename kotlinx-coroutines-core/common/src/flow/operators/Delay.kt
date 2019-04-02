@@ -8,6 +8,7 @@
 package kotlinx.coroutines.flow
 
 import kotlinx.coroutines.*
+import kotlinx.coroutines.flow.unsafeFlow as flow
 import kotlin.jvm.*
 
 /**

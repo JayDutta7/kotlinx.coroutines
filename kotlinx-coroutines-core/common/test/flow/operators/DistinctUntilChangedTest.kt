@@ -27,7 +27,7 @@ class DistinctUntilChangedTest : TestBase() {
         }
 
         val sum1 = flow.distinctUntilChanged().map { it.i }.sum()
-        val sum2 = flow.distinctUntilChanged(Box::i).map { it.i }.sum()
+        val sum2 = flow.distinctUntilChangedBy(Box::i).map { it.i }.sum()
         assertEquals(5, sum1)
         assertEquals(4, sum2)
     }
@@ -42,7 +42,7 @@ class DistinctUntilChangedTest : TestBase() {
                 expect(2)
                 emit(1)
             }
-        }.distinctUntilChanged { throw TestException() }
+        }.distinctUntilChangedBy { throw TestException() }
 
         expect(1)
         assertFailsWith<TestException>(flow)

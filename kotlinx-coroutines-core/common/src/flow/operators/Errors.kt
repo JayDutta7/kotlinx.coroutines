@@ -8,6 +8,7 @@
 package kotlinx.coroutines.flow
 
 import kotlin.jvm.*
+import kotlinx.coroutines.flow.unsafeFlow as flow
 
 // TODO discuss usability from IDE with lambda as last parameter
 public typealias ExceptionPredicate = (Throwable) -> Boolean
@@ -22,8 +23,8 @@ public fun <T> Flow<T>.onErrorCollect(
     predicate: ExceptionPredicate = ALWAYS_TRUE
 ): Flow<T> = collectSafely { e ->
     if (!predicate(e)) throw e
-    fallback.collect {
-        emit(it)
+    fallback.collect { value ->
+        emit(value)
     }
 }
 
@@ -86,10 +87,3 @@ private fun <T> Flow<T>.collectSafely(onException: suspend FlowCollector<T>.(Thr
             onException(e)
         }
     }
-
-@Deprecated(
-    level = DeprecationLevel.ERROR,
-    message = "Flow analogue is named onErrorCollect",
-    replaceWith = ReplaceWith("onErrorCollect(fallback)")
-)
-public fun <T> Flow<T>.onErrorResume(fallback: Flow<T>): Flow<T> = error("Should not be called")

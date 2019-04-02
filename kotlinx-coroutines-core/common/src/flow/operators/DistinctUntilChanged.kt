@@ -8,17 +8,18 @@
 package kotlinx.coroutines.flow
 
 import kotlin.jvm.*
+import kotlinx.coroutines.flow.unsafeFlow as flow
 
 /**
  * Returns flow where all subsequent repetitions of the same value are filtered out.
  */
-public fun <T> Flow<T>.distinctUntilChanged(): Flow<T> = distinctUntilChanged { it }
+public fun <T> Flow<T>.distinctUntilChanged(): Flow<T> = distinctUntilChangedBy { it }
 
 /**
  * Returns flow where all subsequent repetitions of the same key are filtered out, where
  * key is extracted with [keySelector] function.
  */
-public fun <T, K> Flow<T>.distinctUntilChanged(keySelector: (T) -> K): Flow<T> =
+public fun <T, K> Flow<T>.distinctUntilChangedBy(keySelector: (T) -> K): Flow<T> =
     flow {
         var previousKey: K? = null
         collect { value ->

@@ -20,8 +20,3 @@ public interface FlowCollector<T> {
      */
     public suspend fun emit(value: T)
 }
-
-// Just an additional protection layer
-@Suppress("UNUSED_PARAMETER", "UNUSED", "DeprecatedCallableAddReplaceWith")
-@Deprecated(message = "withContext in flow body is deprecated, use flowOn instead", level = DeprecationLevel.ERROR)
-public fun <T, R> FlowCollector<T>.withContext(context: CoroutineContext, block: suspend () -> R): Unit = error("Should not be called")
