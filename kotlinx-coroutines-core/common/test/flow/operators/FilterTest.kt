@@ -44,4 +44,40 @@ class FilterTest : TestBase() {
         assertEquals(42, flow.single())
         assertTrue(cancelled)
     }
+
+
+    @Test
+    fun testFilterNot() = runTest {
+        val flow = flowOf(1, 2)
+        assertEquals(0, flow.filterNot { true }.sum())
+        assertEquals(3, flow.filterNot { false }.sum())
+    }
+
+    @Test
+    fun testEmptyFlowFilterNot() = runTest {
+        val sum = emptyFlow<Int>().filterNot { true }.sum()
+        assertEquals(0, sum)
+    }
+
+    @Test
+    fun testErrorCancelsUpstreamwFilterNot() = runTest {
+        var cancelled = false
+        val latch = Channel<Unit>()
+        val flow = flow {
+            coroutineScope {
+                launch {
+                    latch.send(Unit)
+                    hang {cancelled = true}
+                }
+                emit(1)
+            }
+        }.filterNot {
+            latch.receive()
+            throw TestException()
+            true
+        }.onErrorReturn(42)
+
+        assertEquals(42, flow.single())
+        assertTrue(cancelled)
+    }
 }
