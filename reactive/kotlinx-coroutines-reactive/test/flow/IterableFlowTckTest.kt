@@ -6,11 +6,11 @@
 
 package kotlinx.coroutines.reactive.flow
 
+import kotlinx.coroutines.flow.*
 import org.junit.*
 import org.reactivestreams.*
 import org.reactivestreams.tck.*
 
-import kotlinx.coroutines.flow.builders.*
 import org.junit.Assert.*
 import org.reactivestreams.Subscription
 import org.reactivestreams.Subscriber

@@ -1,11 +1,18 @@
-@file:UseExperimental(ExperimentalTypeInference::class)
+/*
+ * Copyright 2016-2019 JetBrains s.r.o. Use of this source code is governed by the Apache 2.0 license.
+ */
 
-package kotlinx.coroutines.flow.builders
+@file:UseExperimental(ExperimentalTypeInference::class)
+@file:JvmMultifileClass
+@file:JvmName("FlowKt")
+
+package kotlinx.coroutines.flow
 
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.flow.internal.*
 import kotlin.coroutines.*
 import kotlin.experimental.*
+import kotlin.jvm.*
 
 /**
  * Creates flow from the given suspendable [block].

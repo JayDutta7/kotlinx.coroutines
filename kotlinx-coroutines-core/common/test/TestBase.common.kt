@@ -5,7 +5,6 @@
 package kotlinx.coroutines
 
 import kotlinx.coroutines.flow.*
-import kotlinx.coroutines.flow.terminal.*
 import kotlin.coroutines.*
 import kotlinx.coroutines.internal.*
 import kotlin.test.*

@@ -1,8 +1,13 @@
-@file:Suppress("UNCHECKED_CAST")
+/*
+ * Copyright 2016-2019 JetBrains s.r.o. Use of this source code is governed by the Apache 2.0 license.
+ */
 
-package kotlinx.coroutines.flow.terminal
+@file:JvmMultifileClass
+@file:JvmName("FlowKt")
 
-import kotlinx.coroutines.flow.*
+package kotlinx.coroutines.flow
+
+import kotlin.jvm.*
 
 /**
  * Terminal flow operator that collects the given flow with a provided [action].

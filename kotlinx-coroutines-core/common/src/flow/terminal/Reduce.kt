@@ -1,6 +1,13 @@
-package kotlinx.coroutines.flow.terminal
+/*
+ * Copyright 2016-2019 JetBrains s.r.o. Use of this source code is governed by the Apache 2.0 license.
+ */
 
-import kotlinx.coroutines.flow.*
+@file:JvmMultifileClass
+@file:JvmName("FlowKt")
+
+package kotlinx.coroutines.flow
+
+import kotlin.jvm.*
 
 /**
  * Accumulates value starting with the first element and applying [operation] to current accumulator value and each element.

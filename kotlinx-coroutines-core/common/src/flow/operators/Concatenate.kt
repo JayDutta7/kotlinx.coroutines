@@ -2,11 +2,12 @@
  * Copyright 2016-2019 JetBrains s.r.o. Use of this source code is governed by the Apache 2.0 license.
  */
 
-package kotlinx.coroutines.flow.operators
+@file:JvmMultifileClass
+@file:JvmName("FlowKt")
 
-import kotlinx.coroutines.flow.*
-import kotlinx.coroutines.flow.builders.*
-import kotlinx.coroutines.flow.terminal.*
+package kotlinx.coroutines.flow
+
+import kotlin.jvm.*
 
 /**
  * Concatenates values of each flow sequentially, without interleaving them.

@@ -5,7 +5,7 @@
 package kotlinx.coroutines.reactive.flow
 
 import kotlinx.coroutines.*
-import kotlinx.coroutines.flow.terminal.*
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.reactive.*
 import kotlin.test.*
 

@@ -2,14 +2,15 @@
  * Copyright 2016-2019 JetBrains s.r.o. Use of this source code is governed by the Apache 2.0 license.
  */
 
-package kotlinx.coroutines.flow.operators
+@file:JvmMultifileClass
+@file:JvmName("FlowKt")
+
+package kotlinx.coroutines.flow
 
 import kotlinx.atomicfu.*
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.*
-import kotlinx.coroutines.flow.*
-import kotlinx.coroutines.flow.builders.*
-import kotlinx.coroutines.flow.terminal.*
+import kotlin.jvm.*
 
 /**
  * Transforms elements emitted by the original flow by applying [mapper], that returns another flow, and then merging and flattening these flows.

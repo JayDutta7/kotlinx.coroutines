@@ -10,7 +10,6 @@ package kotlinx.coroutines.reactive.flow
 
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
-import kotlinx.coroutines.flow.terminal.*
 import org.reactivestreams.*
 import java.util.concurrent.atomic.*
 

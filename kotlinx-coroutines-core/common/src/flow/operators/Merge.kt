@@ -1,8 +1,12 @@
-package kotlinx.coroutines.flow.operators
+/*
+ * Copyright 2016-2019 JetBrains s.r.o. Use of this source code is governed by the Apache 2.0 license.
+ */
 
-import kotlinx.coroutines.flow.*
-import kotlinx.coroutines.flow.builders.*
-import kotlinx.coroutines.flow.terminal.*
+@file:JvmMultifileClass
+@file:JvmName("FlowKt")
+
+package kotlinx.coroutines.flow
+import kotlin.jvm.*
 
 /**
  * Merges given sequence of flows into a single flow with no guarantees on the order.

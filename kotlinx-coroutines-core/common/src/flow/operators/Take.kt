@@ -2,14 +2,13 @@
  * Copyright 2016-2019 JetBrains s.r.o. Use of this source code is governed by the Apache 2.0 license.
  */
 
-@file:Suppress("UNCHECKED_CAST")
+@file:JvmMultifileClass
+@file:JvmName("FlowKt")
 
-package kotlinx.coroutines.flow.operators
+package kotlinx.coroutines.flow
 
 import kotlinx.coroutines.*
-import kotlinx.coroutines.flow.*
-import kotlinx.coroutines.flow.builders.*
-import kotlinx.coroutines.flow.terminal.*
+import kotlin.jvm.*
 
 /**
  * Returns a flow that contains first [count] elements.
