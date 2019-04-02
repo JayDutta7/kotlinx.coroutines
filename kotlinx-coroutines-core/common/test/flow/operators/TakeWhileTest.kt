@@ -24,8 +24,8 @@ class TakeWhileTest : TestBase() {
 
     @Test
     fun testEmptyFlow() = runTest {
-        assertEquals(0, flowOf<Int>().takeWhile { true }.sum())
-        assertEquals(0, flowOf<Int>().takeWhile { false }.sum())
+        assertEquals(0, emptyFlow<Int>().takeWhile { true }.sum())
+        assertEquals(0, emptyFlow<Int>().takeWhile { false }.sum())
     }
 
     @Test

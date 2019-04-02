@@ -19,7 +19,7 @@ class FilterTest : TestBase() {
 
     @Test
     fun testEmptyFlow() = runTest {
-        val sum = flowOf<Int>().filter { true }.sum()
+        val sum = emptyFlow<Int>().filter { true }.sum()
         assertEquals(0, sum)
     }
 

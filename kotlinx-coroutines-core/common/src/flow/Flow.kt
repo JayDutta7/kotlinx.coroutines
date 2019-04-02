@@ -100,4 +100,3 @@ public interface Flow<T : Any> {
      */
     public suspend fun collect(collector: FlowCollector<T>)
 }
-

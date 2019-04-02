@@ -23,7 +23,7 @@ class TakeTest : TestBase() {
 
     @Test
     fun testEmptyFlow() = runTest {
-        val sum = flowOf<Int>().take(10).sum()
+        val sum = emptyFlow<Int>().take(10).sum()
         assertEquals(0, sum)
     }
 

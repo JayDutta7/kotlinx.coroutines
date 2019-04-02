@@ -776,6 +776,10 @@ public abstract interface class kotlinx/coroutines/flow/FlowCollector {
 	public abstract fun emit (Ljava/lang/Object;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
 }
 
+public final class kotlinx/coroutines/flow/FlowCollectorKt {
+	public static final fun withContext (Lkotlinx/coroutines/flow/FlowCollector;Lkotlin/coroutines/CoroutineContext;Lkotlin/jvm/functions/Function1;)V
+}
+
 public final class kotlinx/coroutines/flow/FlowKt {
 	public static final fun BehaviourSubject ()Ljava/lang/Object;
 	public static final fun PublishSubject ()Ljava/lang/Object;
@@ -849,7 +853,6 @@ public final class kotlinx/coroutines/flow/FlowKt {
 	public static synthetic fun toSet$default (Lkotlinx/coroutines/flow/Flow;Ljava/util/Set;Lkotlin/coroutines/Continuation;ILjava/lang/Object;)Ljava/lang/Object;
 	public static final fun transform (Lkotlinx/coroutines/flow/Flow;Lkotlin/jvm/functions/Function3;)Lkotlinx/coroutines/flow/Flow;
 	public static final fun unsafeFlow (Lkotlin/jvm/functions/Function2;)Lkotlinx/coroutines/flow/Flow;
-	public static final fun withContext (Lkotlinx/coroutines/flow/FlowCollector;Lkotlin/coroutines/CoroutineContext;Lkotlin/jvm/functions/Function1;)V
 }
 
 public final class kotlinx/coroutines/flow/LaunchFlowBuilder {

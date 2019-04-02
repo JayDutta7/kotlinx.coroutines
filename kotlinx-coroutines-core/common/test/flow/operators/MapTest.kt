@@ -22,7 +22,7 @@ class MapTest : TestBase() {
 
     @Test
     fun testEmptyFlow() = runTest {
-        val sum = flowOf<Int>().map { it + 1 }.sum()
+        val sum = emptyFlow<Int>().map { it + 1 }.sum()
         assertEquals(0, sum)
     }
 

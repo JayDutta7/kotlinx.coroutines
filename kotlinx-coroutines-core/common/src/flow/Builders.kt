@@ -115,6 +115,16 @@ public fun <T : Any> flowOf(vararg elements: T): Flow<T> = unsafeFlow {
 }
 
 /**
+ * Returns an empty flow.
+ */
+@Suppress("UNCHECKED_CAST")
+public fun <T: Any> emptyFlow(): Flow<T> = EmptyFlow as Flow<T>
+
+private object EmptyFlow : Flow<Nothing> {
+    override suspend fun collect(collector: FlowCollector<Nothing>) = Unit
+}
+
+/**
  * Creates flow that produces values from the given array.
  */
 public fun <T: Any> Array<T>.asFlow(): Flow<T> = flow {
@@ -195,4 +205,3 @@ public fun <T : Any> flowViaChannel( // TODO bikeshed this naming?
         }
     }
 }
-
